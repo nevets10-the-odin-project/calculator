@@ -1,3 +1,39 @@
+* {
+	margin: 0;
+	padding: 0;
+	color: #ffffff;
+}
+
+button {
+	border: none;
+}
+
+button:hover {
+	background-color: #5f5f5f;
+}
+
 body {
-	background-color: aqua;
+	background-color: #1e1e1e;
+}
+
+.display {
+	background-color: #333333;
+}
+
+.buttons {
+	display: grid;
+	grid-template-columns: repeat(5, 1fr);
+	gap: 1px;
+}
+
+.operation {
+	background-color: #4b4b4c;
+}
+
+.number {
+	background-color: #2b2b2b;
+}
+
+.equals {
+	background-color: #656566;
 }

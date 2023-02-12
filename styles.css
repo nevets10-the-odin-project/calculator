@@ -4,8 +4,13 @@
 	color: #ffffff;
 }
 
+html {
+	font-size: 62.5%;
+}
+
 button {
 	border: none;
+	font-size: 2rem;
 }
 
 button:hover {
@@ -14,13 +19,34 @@ button:hover {
 
 body {
 	background-color: #1e1e1e;
+	display: flex;
+	flex-direction: column;
+	height: 100vh;
+	width: 100vw;
+	max-width: 200ch;
+	margin: auto;
 }
 
 .display {
+	flex: 1;
+	display: flex;
+	flex-direction: column;
+	justify-content: end;
 	background-color: #333333;
+	text-align: right;
+}
+
+.equation {
+	color: #bbbbbb;
+	font-size: 4rem;
+}
+
+.result {
+	font-size: 8rem;
 }
 
 .buttons {
+	flex: 2;
 	display: grid;
 	grid-template-columns: repeat(5, 1fr);
 	gap: 1px;

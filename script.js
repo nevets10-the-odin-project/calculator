@@ -23,3 +23,11 @@ const operate = function (operator, num1, num2) {
 	if (operator === "divide") return divide(num1, num2);
 	return "ERROR";
 };
+
+const readInput = function (e) {
+	const button = e.target.closest("button");
+	console.log(button.id);
+};
+
+const buttons = document.querySelector(".buttons");
+buttons.addEventListener("click", readInput);

@@ -38,6 +38,10 @@ const updateNumber = function (newNumber) {
 	}
 };
 
+const updateOperator = function (newOperator) {
+	operator = newOperator;
+};
+
 const processInput = function (e) {
 	const button = e.target.closest("button");
 
@@ -47,6 +51,8 @@ const processInput = function (e) {
 		updateNumber(newNumber);
 		console.log(num1);
 	} else {
+		updateOperator(button.id);
+		console.log(operator);
 	}
 };
 

@@ -46,7 +46,7 @@ const processInput = function (e) {
 	const button = e.target.closest("button");
 
 	if (button.classList.value === "operate") {
-		console.log(operate(operator, num1, num2));
+		result = operate(operator, num1, num2);
 	} else if (button.classList.value === "number") {
 		const newNumber = +button.innerText;
 		updateNumber(newNumber);
@@ -58,6 +58,7 @@ const processInput = function (e) {
 	console.log("num1", num1);
 	console.log("num2", num2);
 	console.log("operator", operator);
+	console.log("result", result);
 };
 
 const buttons = document.querySelector(".buttons");

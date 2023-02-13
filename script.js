@@ -24,10 +24,15 @@ const operate = function (operator, num1, num2) {
 	return "ERROR";
 };
 
-const readInput = function (e) {
+const processInput = function (e) {
 	const button = e.target.closest("button");
-	console.log(button.id);
+
+	if (button.classList.value === "operate") {
+	} else if (button.classList.value === "number") {
+		console.log(button.innerText);
+	} else {
+	}
 };
 
 const buttons = document.querySelector(".buttons");
-buttons.addEventListener("click", readInput);
+buttons.addEventListener("click", processInput);

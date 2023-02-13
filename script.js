@@ -2,6 +2,7 @@
 
 let num1 = 0;
 let num2 = 0;
+let isNum1 = true;
 let result = 0;
 let operator = "";
 
@@ -29,12 +30,22 @@ const operate = function (op, a, b) {
 	return "ERROR";
 };
 
+const updateNumber = function (newNumber) {
+	if (isNum1) {
+		num1 = num1 === 0 ? newNumber : +`${num1}${newNumber}`;
+	} else {
+		num2 = num2 === 0 ? newNumber : +`${num2}${newNumber}`;
+	}
+};
+
 const processInput = function (e) {
 	const button = e.target.closest("button");
 
 	if (button.classList.value === "operate") {
 	} else if (button.classList.value === "number") {
-		console.log(button.innerText);
+		const newNumber = +button.innerText;
+		updateNumber(newNumber);
+		console.log(num1);
 	} else {
 	}
 };

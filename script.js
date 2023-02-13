@@ -42,14 +42,20 @@ const updateOperator = function (newOperator) {
 	operator = newOperator;
 };
 
+const populateResultDiv = function (number) {
+	resultDiv.textContent = number;
+};
+
 const processInput = function (e) {
 	const button = e.target.closest("button");
 
 	if (button.classList.value === "operate") {
 		result = operate(operator, num1, num2);
+		populateResultDiv(result);
 	} else if (button.classList.value === "number") {
 		const newNumber = +button.innerText;
 		updateNumber(newNumber);
+		populateResultDiv(isNum1 ? num1 : num2);
 	} else {
 		updateOperator(button.id);
 		isNum1 = !isNum1;
@@ -63,3 +69,5 @@ const processInput = function (e) {
 
 const buttons = document.querySelector(".buttons");
 buttons.addEventListener("click", processInput);
+
+const resultDiv = document.querySelector(".result");

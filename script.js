@@ -1,5 +1,10 @@
 "use strict";
 
+let num1 = 0;
+let num2 = 0;
+let result = 0;
+let operator = "";
+
 const add = function (num1, num2) {
 	return num1 + num2;
 };

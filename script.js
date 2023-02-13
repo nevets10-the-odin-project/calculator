@@ -1,8 +1,9 @@
 "use strict";
 
+let isNum1 = true;
 let num1 = 0;
 let num2 = 0;
-let isNum1 = true;
+let tempNum = 0;
 let result = 0;
 let operator = "";
 let equation = "";
@@ -60,18 +61,21 @@ const processInput = function (e) {
 	let newEquation = equation;
 
 	if (button.classList.value === "operate") {
-		result = operate(operator, num1, num2);
+		updateNumber(tempNum);
 		newEquation += isNum1 ? `${num1}=` : `${num2}=`;
+		result = operate(operator, num1, num2);
 		populateResultDiv(result);
 	} else if (button.classList.value === "number") {
 		const newNumber = +button.innerText;
-		updateNumber(newNumber);
-		populateResultDiv(isNum1 ? num1 : num2);
+		tempNum = tempNum === 0 ? newNumber : +`${tempNum}${newNumber}`;
+		populateResultDiv(tempNum);
 	} else {
 		const newOperator = button.innerText;
-		newEquation += isNum1 ? `${num1}${newOperator}` : `${num2}${newOperator}`;
+		updateNumber(tempNum);
 		updateOperator(newOperator);
-		isNum1 = !isNum1;
+		newEquation += isNum1 ? `${num1}${newOperator}` : `${num2}${newOperator}`;
+		isNum1 = false;
+		tempNum = 0;
 	}
 
 	updateEquation(newEquation);

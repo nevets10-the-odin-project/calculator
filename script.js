@@ -51,6 +51,10 @@ const populateResultDiv = function (number) {
 	resultDiv.textContent = number;
 };
 
+const populateEquationDiv = function (currentEquation) {
+	equationDiv.textContent = currentEquation;
+};
+
 const processInput = function (e) {
 	const button = e.target.closest("button");
 	let newEquation = equation;
@@ -71,6 +75,7 @@ const processInput = function (e) {
 	}
 
 	updateEquation(newEquation);
+	populateEquationDiv(newEquation);
 	console.log("num1", num1);
 	console.log("num2", num2);
 	console.log("equation", equation);
@@ -81,3 +86,4 @@ const buttons = document.querySelector(".buttons");
 buttons.addEventListener("click", processInput);
 
 const resultDiv = document.querySelector(".result");
+const equationDiv = document.querySelector(".equation");

@@ -66,16 +66,14 @@ const processInput = function (e) {
 
 		if (!currentOperator) {
 			num1 = tempNum;
-			isTempChanged = false;
 		} else if (isTempChanged) {
 			num2 = tempNum;
 			num1 = operate(currentOperator, num1, num2);
 
 			populateResultDiv(num1);
-
-			isTempChanged = false;
 		}
 
+		isTempChanged = false;
 		currentOperator = newOperator;
 		populateEquationDiv(`${num1} ${currentOperator}`);
 	} else if (button.classList.value === "equals") {

@@ -1,6 +1,6 @@
 "use strict";
 
-let isTempChanges = false;
+let isTempChanged = false;
 let tempNum = 0;
 let num1 = null;
 let num2 = null;

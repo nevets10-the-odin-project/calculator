@@ -111,6 +111,14 @@ const processInput = function (e) {
 
 		populateResultDiv(tempNum);
 	} else if (button.classList.value === "clear-all") {
+		isEquals = false;
+		isTempChanged = false;
+		tempNum = 0;
+		num1 = null;
+		num2 = null;
+		currentOperator = null;
+		populateEquationDiv("");
+		populateResultDiv(tempNum);
 	} else if (button.classList.value === "delete") {
 	}
 };

@@ -2,13 +2,21 @@
 
 Final project in The Odin Project's Foundations course
 
-## 2nd workflow idea
+## 3rd workflow idea
 
-### Had this idea on my drive back home from work today
+### Revision of the previous idea
 
-currentOp = {a: null, operator: null; b: null }
 tempNum = 0
+
+a = null
+
+b = null
+
+operator = null
+
 isTempChanged = false
+
+isEquals = false
 
 User clicks button
 
@@ -36,63 +44,37 @@ User clicks button
 
     else if button is an operator
 
-        if currentOp.operator === null
+        if operator === null
 
-            if currentOp.a === null
+            operator = new operator button
 
-                currentOp.a = tempNum
+            a = tempNum
 
-                currentOp.operator = new operator button
+            isTempChanged = false
 
-                isTempChanged = false
-
-                populateEquationDiv(`${currentOp.a} ${currentOp.operator}`)
-
-            else
-
-                if isTempChanged === false
-
-                    populateEquationDiv(`${equationDiv - 2} ${currentOp.operator}`)
-
-                else
-
-                    currentOp.b = tempNum
-
-                    tempNum = operate(currentOp)
-
-                    populateEquationDiv(`${equationDiv} ${currentOp.b} ${currentOp.operator}`)
-
-                    populateResultDiv(tempNum)
-
-                    currentOp.a = tempNum
-
-                    currentOp.operator = new operator button
-
-                    isTempChanged = false
+            populateEquationDiv(`${a} ${operator}`)
 
         else if isTempChanged === false
 
-            populateEquationDiv(`${equationDiv - 2} ${currentOp.operator}`)
+            populateEquationDiv(`${a} ${operator}`)
 
         else
 
-            currentOp.b = tempNum
+            b = tempNum
 
-            tempNum = operate(currentOp)
+            a = operate(a, b, operator)
 
-            populateEquationDiv(`${equationDiv} ${currentOp.b} ${currentOp.operator}`)
+            operator = new operator button
 
-            populateResultDiv(tempNum)
+            populateEquationDiv(`${a} ${operator}`)
 
-            currentOp.a = tempNum
-
-            currentOp.operator = new operator button
+            populateResultDiv(a)
 
             isTempChanged = false
 
     else if button is equals
 
-        if currentOp.operator === null
+        if operator === null
 
             populateEquationDiv(`${tempNum} =`)
 
@@ -100,20 +82,30 @@ User clicks button
 
         else
 
-            populateEquationDiv(`${equationDiv} ${currentOp.operator} ${tempNum} =`)
+            if (!isTempChanged)
 
-            populateResultDiv(operate(currentOp))
+                b = tempNum
 
-        isEquals = true
+            a = operate(a, b, operator)
+
+            isTempChanged = false
+
+            populateEquationDiv(`${a} ${operator} ${b} =`)
+
+            populateResultDiv(a)
+
+    else if button is clear
+
+        tempNum = 0
+
+        a = null
+
+        b = null
+
+        operator = null
 
         isTempChanged = false
 
-        currentOp.a = null
+    else if other buttons
 
-        currentOp.operator = null
-
-        currentOp.b = null
-
-### Higher-level functionality ideas that need to be fleshed out
-
-Store the currentOp objects before each additional number/operator in an array which will then be sorted based on precedence and iterated through until the final result is determined. Parenthesis would create their own child currentOp objects within their own arrays?
+        do other stuff specific to that button

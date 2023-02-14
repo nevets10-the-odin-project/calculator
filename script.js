@@ -56,32 +56,11 @@ const populateEquationDiv = function (currentEquation) {
 
 const processInput = function (e) {
 	const button = e.target.closest("button");
-	let newEquation = equation;
 
-	if (button.classList.value === "operate") {
-		updateNumber(tempNum);
-		newEquation += isNum1 ? `${num1}=` : `${num2}=`;
-		result = operate(currentOperator, num1, num2);
-		populateResultDiv(result);
-	} else if (button.classList.value === "number") {
-		const newNumber = +button.innerText;
-		tempNum = tempNum === 0 ? newNumber : +`${tempNum}${newNumber}`;
-		populateResultDiv(tempNum);
-	} else {
-		const newOperator = button.innerText;
-		updateNumber(tempNum);
-		updateOperator(newOperator);
-		newEquation += isNum1 ? `${num1}${newOperator}` : `${num2}${newOperator}`;
-		isNum1 = false;
-		tempNum = 0;
+	if (button.classList.value === "number") {
+	} else if (button.classList.value === "operator") {
+	} else if (button.classList.value === "equals") {
 	}
-
-	updateEquation(newEquation);
-	populateEquationDiv(newEquation);
-	console.log("num1", num1);
-	console.log("num2", num2);
-	console.log("equation", equation);
-	console.log("result", result);
 };
 
 const buttons = document.querySelector(".buttons");

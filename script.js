@@ -51,7 +51,7 @@ const processInput = function (e) {
 
 	if (button.classList.value === "number") {
 		const newNumber = +button.innerText;
-		if (tempNum === 0) {
+		if (!isTempChanged) {
 			tempNum = newNumber;
 		} else {
 			tempNum = +`${tempNum}${newNumber}`;

@@ -7,47 +7,53 @@ let num1 = null;
 let num2 = null;
 let currentOperator = null;
 
-const add = function (a, b) {
+const buttons = document.querySelector(".buttons");
+buttons.addEventListener("click", processInput);
+
+const resultDiv = document.querySelector(".result");
+const equationDiv = document.querySelector(".equation");
+
+function add(a, b) {
 	return a + b;
-};
+}
 
-const subtract = function (a, b) {
+function subtract(a, b) {
 	return a - b;
-};
+}
 
-const multiply = function (a, b) {
+function multiply(a, b) {
 	return a * b;
-};
+}
 
-const divide = function (a, b) {
+function divide(a, b) {
 	return a / b;
-};
+}
 
-const operate = function (operator, a, b) {
+function operate(operator, a, b) {
 	if (operator === "+") return add(a, b);
 	if (operator === "-") return subtract(a, b);
 	if (operator === "x") return multiply(a, b);
 	if (operator === "÷") return divide(a, b);
 	return "ERROR";
-};
+}
 
-const updateNumber = function (newNumber) {
+function updateNumber(newNumber) {
 	if (isNum1) {
 		num1 = num1 === 0 ? newNumber : +`${num1}${newNumber}`;
 	} else {
 		num2 = num2 === 0 ? newNumber : +`${num2}${newNumber}`;
 	}
-};
+}
 
-const populateResultDiv = function (number) {
+function populateResultDiv(number) {
 	resultDiv.textContent = number;
-};
+}
 
-const populateEquationDiv = function (currentEquation) {
+function populateEquationDiv(currentEquation) {
 	equationDiv.textContent = currentEquation;
-};
+}
 
-const processInput = function (e) {
+function processInput(e) {
 	const button = e.target.closest("button");
 
 	if (button.classList.value === "number") {
@@ -125,10 +131,4 @@ const processInput = function (e) {
 		tempNum = +tempNumString.substring(0, tempNumString.length - 1);
 		populateResultDiv(tempNum);
 	}
-};
-
-const buttons = document.querySelector(".buttons");
-buttons.addEventListener("click", processInput);
-
-const resultDiv = document.querySelector(".result");
-const equationDiv = document.querySelector(".equation");
+}

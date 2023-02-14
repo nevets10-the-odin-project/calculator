@@ -57,7 +57,7 @@ const processInput = function (e) {
 			tempNum = +`${tempNum}${newNumber}`;
 		}
 		isTempChanged = true;
-		console.log(tempNum);
+		populateResultDiv(tempNum);
 	} else if (button.classList.value === "operator") {
 	} else if (button.classList.value === "equals") {
 	}

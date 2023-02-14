@@ -58,6 +58,14 @@ const processInput = function (e) {
 	const button = e.target.closest("button");
 
 	if (button.classList.value === "number") {
+		const newNumber = +button.innerText;
+		if (tempNum === 0) {
+			tempNum = newNumber;
+		} else {
+			tempNum = +`${tempNum}${newNumber}`;
+		}
+		isTempChanged = true;
+		console.log(tempNum);
 	} else if (button.classList.value === "operator") {
 	} else if (button.classList.value === "equals") {
 	}

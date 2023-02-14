@@ -1,12 +1,10 @@
 "use strict";
 
-let isNum1 = true;
-let num1 = 0;
-let num2 = 0;
+let isTempChanges = false;
 let tempNum = 0;
-let result = 0;
-let currentOperator = "";
-let equation = "";
+let num1 = null;
+let num2 = null;
+let currentOperator = null;
 
 const add = function (a, b) {
 	return a + b;

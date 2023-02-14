@@ -51,22 +51,36 @@ const processInput = function (e) {
 
 	if (button.classList.value === "number") {
 		const newNumber = +button.innerText;
+
 		if (!isTempChanged) {
 			tempNum = newNumber;
 		} else {
 			tempNum = +`${tempNum}${newNumber}`;
 		}
+
 		isTempChanged = true;
+
 		populateResultDiv(tempNum);
 	} else if (button.classList.value === "operator") {
-		const newOperator = button.id;
-		currentOperator = newOperator;
+		const newOperator = button.innerText;
+
 		if (!currentOperator) {
 			num1 = tempNum;
-		}
+			currentOperator = newOperator;
+			isTempChanged = false;
+			populateEquationDiv(`${num1} ${currentOperator}`);
+		} else if (!isTempChanged) {
+			populateEquationDiv(`${num1} ${currentOperator}`);
+		} else {
+			num2 = tempNum;
+			num1 = operate(currentOperator, num1, num2);
+			currentOperator = newOperator;
 
-		isTempChanged = false;
-		console.log(currentOperator);
+			populateEquationDiv(`${num1} ${currentOperator}`);
+			populateResultDiv(num1);
+
+			isTempChanged = false;
+		}
 	} else if (button.classList.value === "equals") {
 	}
 };

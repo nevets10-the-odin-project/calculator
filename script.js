@@ -59,6 +59,14 @@ const processInput = function (e) {
 		isTempChanged = true;
 		populateResultDiv(tempNum);
 	} else if (button.classList.value === "operator") {
+		const newOperator = button.id;
+		currentOperator = newOperator;
+		if (!currentOperator) {
+			num1 = tempNum;
+		}
+
+		isTempChanged = false;
+		console.log(currentOperator);
 	} else if (button.classList.value === "equals") {
 	}
 };

@@ -1,5 +1,6 @@
 "use strict";
 
+let isEquals = false;
 let isTempChanged = false;
 let tempNum = 0;
 let num1 = null;
@@ -75,8 +76,10 @@ const processInput = function (e) {
 
 		isTempChanged = false;
 		currentOperator = newOperator;
+
 		populateEquationDiv(`${num1} ${currentOperator}`);
 	} else if (button.classList.value === "equals") {
+		isEquals = true;
 		if (!currentOperator) {
 			populateEquationDiv(`${tempNum} =`);
 			populateResultDiv(tempNum);
@@ -92,6 +95,23 @@ const processInput = function (e) {
 
 			isTempChanged = false;
 		}
+	} else if (button.classList.value === "clear") {
+		if (!isEquals) {
+			isTempChanged = false;
+			tempNum = 0;
+		} else {
+			isEquals = false;
+			isTempChanged = false;
+			tempNum = 0;
+			num1 = null;
+			num2 = null;
+			currentOperator = null;
+			populateEquationDiv("");
+		}
+
+		populateResultDiv(tempNum);
+	} else if (button.classList.value === "clear-all") {
+	} else if (button.classList.value === "delete") {
 	}
 };
 

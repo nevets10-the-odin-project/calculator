@@ -66,21 +66,18 @@ const processInput = function (e) {
 
 		if (!currentOperator) {
 			num1 = tempNum;
-			currentOperator = newOperator;
 			isTempChanged = false;
-			populateEquationDiv(`${num1} ${currentOperator}`);
-		} else if (!isTempChanged) {
-			populateEquationDiv(`${num1} ${currentOperator}`);
-		} else {
+		} else if (isTempChanged) {
 			num2 = tempNum;
 			num1 = operate(currentOperator, num1, num2);
-			currentOperator = newOperator;
 
-			populateEquationDiv(`${num1} ${currentOperator}`);
 			populateResultDiv(num1);
 
 			isTempChanged = false;
 		}
+
+		currentOperator = newOperator;
+		populateEquationDiv(`${num1} ${currentOperator}`);
 	} else if (button.classList.value === "equals") {
 		if (!currentOperator) {
 			populateEquationDiv(`${tempNum} =`);

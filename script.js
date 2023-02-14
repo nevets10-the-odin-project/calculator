@@ -38,14 +38,6 @@ const updateNumber = function (newNumber) {
 	}
 };
 
-const updateOperator = function (newOperator) {
-	currentOperator = newOperator;
-};
-
-const updateEquation = function (newEquation) {
-	equation = newEquation;
-};
-
 const populateResultDiv = function (number) {
 	resultDiv.textContent = number;
 };

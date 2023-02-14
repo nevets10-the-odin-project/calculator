@@ -5,7 +5,7 @@ let num1 = 0;
 let num2 = 0;
 let tempNum = 0;
 let result = 0;
-let operator = "";
+let currentOperator = "";
 let equation = "";
 
 const add = function (a, b) {
@@ -24,11 +24,11 @@ const divide = function (a, b) {
 	return a / b;
 };
 
-const operate = function (op, a, b) {
-	if (op === "+") return add(a, b);
-	if (op === "-") return subtract(a, b);
-	if (op === "x") return multiply(a, b);
-	if (op === "÷") return divide(a, b);
+const operate = function (operator, a, b) {
+	if (operator === "+") return add(a, b);
+	if (operator === "-") return subtract(a, b);
+	if (operator === "x") return multiply(a, b);
+	if (operator === "÷") return divide(a, b);
 	return "ERROR";
 };
 
@@ -41,7 +41,7 @@ const updateNumber = function (newNumber) {
 };
 
 const updateOperator = function (newOperator) {
-	operator = newOperator;
+	currentOperator = newOperator;
 };
 
 const updateEquation = function (newEquation) {
@@ -63,7 +63,7 @@ const processInput = function (e) {
 	if (button.classList.value === "operate") {
 		updateNumber(tempNum);
 		newEquation += isNum1 ? `${num1}=` : `${num2}=`;
-		result = operate(operator, num1, num2);
+		result = operate(currentOperator, num1, num2);
 		populateResultDiv(result);
 	} else if (button.classList.value === "number") {
 		const newNumber = +button.innerText;

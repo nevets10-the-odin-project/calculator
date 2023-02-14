@@ -82,6 +82,21 @@ const processInput = function (e) {
 			isTempChanged = false;
 		}
 	} else if (button.classList.value === "equals") {
+		if (!currentOperator) {
+			populateEquationDiv(`${tempNum} =`);
+			populateResultDiv(tempNum);
+			isTempChanged = false;
+		} else {
+			num2 = tempNum;
+
+			populateEquationDiv(`${num1} ${currentOperator} ${num2} =`);
+
+			num1 = operate(currentOperator, num1, num2);
+
+			populateResultDiv(num1);
+
+			isTempChanged = false;
+		}
 	}
 };
 

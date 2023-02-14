@@ -120,6 +120,10 @@ const processInput = function (e) {
 		populateEquationDiv("");
 		populateResultDiv(tempNum);
 	} else if (button.classList.value === "delete") {
+		if (!isTempChanged) return;
+		const tempNumString = tempNum.toString();
+		tempNum = +tempNumString.substring(0, tempNumString.length - 1);
+		populateResultDiv(tempNum);
 	}
 };
 

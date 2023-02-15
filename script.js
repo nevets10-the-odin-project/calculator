@@ -51,6 +51,10 @@ function processInput(e) {
 			divideByOne();
 			isTempChanged = false;
 			break;
+		case "squared":
+			squared();
+			isTempChanged = false;
+			break;
 		default:
 			alert("You pressed something unexpected...");
 	}
@@ -140,6 +144,14 @@ function divideByOne() {
 	num1 = +tempNum;
 	num1 = divide(1, num1);
 	populateEquationDiv(`1/(${tempNum})`);
+	populateResultDiv(num1);
+	tempNum = num1.toString();
+}
+
+function squared() {
+	num1 = +tempNum;
+	num1 = multiply(num1, num1);
+	populateEquationDiv(`sqr(${tempNum})`);
 	populateResultDiv(num1);
 	tempNum = num1.toString();
 }

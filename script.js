@@ -15,7 +15,11 @@ buttons.addEventListener("click", processInput);
 
 function processInput(e) {
 	const button = e.target.closest("button");
-	switch (button.classList.value) {
+	const buttonType = button.classList.value;
+
+	if (isEquals && buttonType !== "equals") clearAll();
+
+	switch (buttonType) {
 		case "number":
 			updateTempNumber(button.innerText);
 			populateResultDiv(tempNum);

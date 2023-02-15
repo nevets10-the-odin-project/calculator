@@ -59,6 +59,10 @@ function processInput(e) {
 			squareRoot();
 			isTempChanged = false;
 			break;
+		case "why-does-this-do-this":
+			thisOtherCalculation();
+			isTempChanged = false;
+			break;
 		default:
 			alert("You pressed something unexpected...");
 	}
@@ -166,6 +170,22 @@ function squareRoot() {
 	populateEquationDiv(`√(${tempNum})`);
 	populateResultDiv(num1);
 	tempNum = num1.toString();
+}
+
+function thisOtherCalculation() {
+	//https://github.com/microsoft/calculator/issues/655#issuecomment-527471016
+	if (currentOperator === null) {
+		populateEquationDiv(0);
+		populateResultDiv(0);
+	} else {
+		if (currentOperator === "+" || currentOperator === "-") {
+			tempNum = ((num1 * +tempNum) / 100).toString();
+		} else if (currentOperator === "x" || currentOperator === "÷") {
+			tempNum = (+tempNum / 100).toString();
+		}
+		populateEquationDiv(`${num1} ${currentOperator} ${tempNum}`);
+		populateResultDiv(tempNum);
+	}
 }
 
 function operate(operator, a, b) {

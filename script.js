@@ -150,28 +150,33 @@ function processModifier(number, modifier) {
 		result = squared(number);
 	}
 
-	populateEquationDiv(result.newEquation);
+	const newEquation = currentOperator
+		? `${num1} ${currentOperator} ${result.modString}`
+		: result.modString;
+
+	populateEquationDiv(newEquation);
+
 	return result.modNumber;
 }
 
 function reciprocal(number) {
 	return {
 		modNumber: divide(1, number),
-		newEquation: `1/(${number})`,
+		modString: `1/(${number})`,
 	};
 }
 
 function squared(number) {
 	return {
 		modNumber: multiply(number, number),
-		newEquation: `sqr(${number})`,
+		modString: `sqr(${number})`,
 	};
 }
 
 function squareRoot(number) {
 	return {
 		modNumber: number ** divide(1, 2),
-		newEquation: `√(${number})`,
+		modString: `√(${number})`,
 	};
 }
 
@@ -187,9 +192,7 @@ function percent(number) {
 
 	return {
 		modNumber,
-		newEquation: modNumber
-			? `${num1} ${currentOperator} ${modNumber}`
-			: modNumber,
+		modString: modNumber ? `${num1} ${currentOperator} ${modNumber}` : modNumber,
 	};
 }
 

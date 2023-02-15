@@ -26,6 +26,10 @@ function processInput(e) {
 			populateEquationDiv(`${num1} ${currentOperator}`);
 			isTempChanged = false;
 			break;
+		case "negative":
+			toggleNegative();
+			populateResultDiv(tempNum);
+			break;
 		case "equals":
 			equals();
 			isTempChanged = false;
@@ -57,6 +61,15 @@ function updateTempNumber(newNumber) {
 		tempNum = newNumber;
 	} else {
 		tempNum = +`${tempNum}${newNumber}`;
+	}
+}
+
+function toggleNegative() {
+	if (!isTempChanged) {
+		tempNum = +resultDiv.textContent * -1;
+		isTempChanged = false;
+	} else {
+		tempNum = tempNum * -1;
 	}
 }
 

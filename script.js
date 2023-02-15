@@ -47,8 +47,8 @@ function processInput(e) {
 		case "delete":
 			deleteDigit();
 			break;
-		case "divide-by-one":
-			divideByOne();
+		case "reciprocal":
+			reciprocal();
 			isTempChanged = false;
 			break;
 		case "squared":
@@ -144,7 +144,7 @@ function deleteDigit() {
 	populateResultDiv(tempNum);
 }
 
-function divideByOne() {
+function reciprocal() {
 	num1 = +tempNum;
 	num1 = divide(1, num1);
 	populateEquationDiv(`1/(${tempNum})`);

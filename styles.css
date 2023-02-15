@@ -55,10 +55,7 @@ body {
 .clear,
 .clear-all,
 .delete,
-.reciprocal,
-.squared,
-.sqrt,
-.why-does-this-do-this,
+.modifier,
 .operator {
 	background-color: #4b4b4c;
 }

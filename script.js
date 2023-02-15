@@ -46,8 +46,6 @@ function processInput(e) {
 		default:
 			alert("You pressed something unexpected...");
 	}
-
-	console.log(tempNum);
 }
 
 function populateResultDiv(number) {
@@ -83,9 +81,8 @@ function processOperator(newOperator) {
 	} else if (isTempChanged) {
 		num2 = +tempNum;
 		num1 = operate(currentOperator, num1, num2);
-
-		populateResultDiv(num1);
 	}
+	populateResultDiv(num1);
 	currentOperator = newOperator;
 }
 

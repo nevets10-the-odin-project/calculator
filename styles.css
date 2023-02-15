@@ -55,6 +55,9 @@ body {
 .clear,
 .clear-all,
 .delete,
+.fraction,
+.squared,
+.sqrt,
 .operator {
 	background-color: #4b4b4c;
 }

@@ -192,7 +192,7 @@ function percent(number) {
 
 	return {
 		modNumber,
-		modString: modNumber ? `${num1} ${currentOperator} ${modNumber}` : modNumber,
+		modString: modNumber,
 	};
 }
 

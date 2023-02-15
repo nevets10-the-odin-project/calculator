@@ -55,6 +55,10 @@ function processInput(e) {
 			squared();
 			isTempChanged = false;
 			break;
+		case "sqrt":
+			squareRoot();
+			isTempChanged = false;
+			break;
 		default:
 			alert("You pressed something unexpected...");
 	}
@@ -152,6 +156,14 @@ function squared() {
 	num1 = +tempNum;
 	num1 = multiply(num1, num1);
 	populateEquationDiv(`sqr(${tempNum})`);
+	populateResultDiv(num1);
+	tempNum = num1.toString();
+}
+
+function squareRoot() {
+	num1 = +tempNum;
+	num1 = num1 ** divide(1, 2);
+	populateEquationDiv(`√(${tempNum})`);
 	populateResultDiv(num1);
 	tempNum = num1.toString();
 }

@@ -16,7 +16,6 @@ buttons.addEventListener("click", processInput);
 function processInput(e) {
 	const button = e.target.closest("button");
 	const buttonType = button.classList.value;
-
 	if (isEquals && buttonType !== "equals") clearAll();
 
 	switch (buttonType) {
@@ -47,20 +46,9 @@ function processInput(e) {
 		case "delete":
 			deleteDigit();
 			break;
-		case "reciprocal":
-			reciprocal();
-			isTempChanged = false;
-			break;
-		case "squared":
-			squared();
-			isTempChanged = false;
-			break;
-		case "sqrt":
-			squareRoot();
-			isTempChanged = false;
-			break;
-		case "why-does-this-do-this":
-			thisOtherCalculation();
+		case "modifier":
+			tempNum = processModifier(+tempNum, button.id).toString();
+			populateResultDiv(tempNum);
 			isTempChanged = false;
 			break;
 		default:
@@ -143,49 +131,66 @@ function clearAll() {
 
 function deleteDigit() {
 	if (!isTempChanged) return;
+
 	const tempNumString = tempNum.toString();
 	tempNum = +tempNumString.substring(0, tempNumString.length - 1);
 	populateResultDiv(tempNum);
 }
 
-function reciprocal() {
-	num1 = +tempNum;
-	num1 = divide(1, num1);
-	populateEquationDiv(`1/(${tempNum})`);
-	populateResultDiv(num1);
-	tempNum = num1.toString();
-}
+function processModifier(number, modifier) {
+	let result;
 
-function squared() {
-	num1 = +tempNum;
-	num1 = multiply(num1, num1);
-	populateEquationDiv(`sqr(${tempNum})`);
-	populateResultDiv(num1);
-	tempNum = num1.toString();
-}
-
-function squareRoot() {
-	num1 = +tempNum;
-	num1 = num1 ** divide(1, 2);
-	populateEquationDiv(`√(${tempNum})`);
-	populateResultDiv(num1);
-	tempNum = num1.toString();
-}
-
-function thisOtherCalculation() {
-	//https://github.com/microsoft/calculator/issues/655#issuecomment-527471016
-	if (currentOperator === null) {
-		populateEquationDiv(0);
-		populateResultDiv(0);
+	if (modifier === "percent") {
+		result = percent(number);
+	} else if (modifier === "sqrt") {
+		result = squareRoot(number);
+	} else if (modifier === "reciprocal") {
+		result = reciprocal(number);
 	} else {
-		if (currentOperator === "+" || currentOperator === "-") {
-			tempNum = ((num1 * +tempNum) / 100).toString();
-		} else if (currentOperator === "x" || currentOperator === "÷") {
-			tempNum = (+tempNum / 100).toString();
-		}
-		populateEquationDiv(`${num1} ${currentOperator} ${tempNum}`);
-		populateResultDiv(tempNum);
+		result = squared(number);
 	}
+
+	populateEquationDiv(result.newEquation);
+	return result.modNumber;
+}
+
+function reciprocal(number) {
+	return {
+		modNumber: divide(1, number),
+		newEquation: `1/(${number})`,
+	};
+}
+
+function squared(number) {
+	return {
+		modNumber: multiply(number, number),
+		newEquation: `sqr(${number})`,
+	};
+}
+
+function squareRoot(number) {
+	return {
+		modNumber: number ** divide(1, 2),
+		newEquation: `√(${number})`,
+	};
+}
+
+function percent(number) {
+	//https://github.com/microsoft/calculator/issues/655#issuecomment-527471016
+	let modNumber = 0;
+
+	if (currentOperator === "+" || currentOperator === "-") {
+		modNumber = (num1 * number) / 100;
+	} else if (currentOperator === "x" || currentOperator === "÷") {
+		modNumber = number / 100;
+	}
+
+	return {
+		modNumber,
+		newEquation: modNumber
+			? `${num1} ${currentOperator} ${modNumber}`
+			: modNumber,
+	};
 }
 
 function operate(operator, a, b) {

@@ -2,7 +2,7 @@
 
 let isEquals = false;
 let isTempChanged = false;
-let tempNum = 0;
+let tempNum = "0";
 let num1 = null;
 let num2 = null;
 let currentOperator = null;
@@ -17,7 +17,7 @@ function processInput(e) {
 	const button = e.target.closest("button");
 	switch (button.classList.value) {
 		case "number":
-			updateTempNumber(+button.innerText);
+			updateTempNumber(button.innerText);
 			populateResultDiv(tempNum);
 			isTempChanged = true;
 			break;
@@ -46,6 +46,8 @@ function processInput(e) {
 		default:
 			alert("You pressed something unexpected...");
 	}
+
+	console.log(tempNum);
 }
 
 function populateResultDiv(number) {
@@ -57,27 +59,29 @@ function populateEquationDiv(currentEquation) {
 }
 
 function updateTempNumber(newNumber) {
-	if (!isTempChanged) {
+	if (tempNum.indexOf(".") !== -1 && newNumber === ".") return;
+
+	if (!isTempChanged && newNumber !== ".") {
 		tempNum = newNumber;
 	} else {
-		tempNum = +`${tempNum}${newNumber}`;
+		tempNum = tempNum.concat(newNumber.toString());
 	}
 }
 
 function toggleNegative() {
 	if (!isTempChanged) {
-		tempNum = +resultDiv.textContent * -1;
+		tempNum = (+resultDiv.textContent * -1).toString();
 		isTempChanged = false;
 	} else {
-		tempNum = tempNum * -1;
+		tempNum = (tempNum * -1).toString();
 	}
 }
 
 function processOperator(newOperator) {
 	if (!currentOperator) {
-		num1 = tempNum;
+		num1 = +tempNum;
 	} else if (isTempChanged) {
-		num2 = tempNum;
+		num2 = +tempNum;
 		num1 = operate(currentOperator, num1, num2);
 
 		populateResultDiv(num1);
@@ -88,10 +92,11 @@ function processOperator(newOperator) {
 function equals() {
 	isEquals = true;
 	if (!currentOperator) {
-		populateEquationDiv(`${tempNum} =`);
-		populateResultDiv(tempNum);
+		num1 = +tempNum;
+		populateEquationDiv(`${num1} =`);
+		populateResultDiv(num1);
 	} else {
-		num2 = tempNum;
+		num2 = +tempNum;
 		populateEquationDiv(`${num1} ${currentOperator} ${num2} =`);
 		num1 = operate(currentOperator, num1, num2);
 		populateResultDiv(num1);
@@ -101,7 +106,7 @@ function equals() {
 function clear() {
 	if (!isEquals) {
 		isTempChanged = false;
-		tempNum = 0;
+		tempNum = "0";
 		populateResultDiv(tempNum);
 	} else {
 		clearAll();
@@ -111,7 +116,7 @@ function clear() {
 function clearAll() {
 	isEquals = false;
 	isTempChanged = false;
-	tempNum = 0;
+	tempNum = "0";
 	num1 = null;
 	num2 = null;
 	currentOperator = null;

@@ -47,6 +47,10 @@ function processInput(e) {
 		case "delete":
 			deleteDigit();
 			break;
+		case "divide-by-one":
+			divideByOne();
+			isTempChanged = false;
+			break;
 		default:
 			alert("You pressed something unexpected...");
 	}
@@ -130,6 +134,14 @@ function deleteDigit() {
 	const tempNumString = tempNum.toString();
 	tempNum = +tempNumString.substring(0, tempNumString.length - 1);
 	populateResultDiv(tempNum);
+}
+
+function divideByOne() {
+	num1 = +tempNum;
+	num1 = divide(1, num1);
+	populateEquationDiv(`1/(${tempNum})`);
+	populateResultDiv(num1);
+	tempNum = num1.toString();
 }
 
 function operate(operator, a, b) {

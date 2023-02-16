@@ -45,7 +45,9 @@ function processInput(e) {
 			clearAll();
 			break;
 		case "delete":
-			deleteDigit();
+			if (!isTempChanged) return;
+			tempNum = deleteDigit(tempNum);
+			populateResultDiv(tempNum);
 			break;
 		case "modifier":
 			tempNum = processModifier(+tempNum, button.id).toString();
@@ -129,12 +131,12 @@ function clearAll() {
 	populateResultDiv(tempNum);
 }
 
-function deleteDigit() {
-	if (!isTempChanged) return;
-
-	const tempNumString = tempNum.toString();
-	tempNum = tempNumString.substring(0, tempNumString.length - 1);
-	populateResultDiv(tempNum);
+function deleteDigit(numString) {
+	if (numString.length === 1) {
+		return "0";
+	} else {
+		return numString.substring(0, numString.length - 1);
+	}
 }
 
 function processModifier(number, modifier) {

@@ -117,22 +117,19 @@ function equals() {
 			number: tempNum,
 			equation: `${+tempNum} =`,
 		};
-	} else if (!isEquals) {
+	}
+
+	if (isEquals) {
+		num1 = +tempNum;
+	} else {
 		isEquals = true;
 		num2 = +tempNum;
-
-		return {
-			number: operate(currentOperator, num1, num2),
-			equation: `${num1} ${currentOperator} ${num2} =`,
-		};
-	} else {
-		num1 = +tempNum;
-
-		return {
-			number: operate(currentOperator, num1, num2),
-			equation: `${num1} ${currentOperator} ${num2} =`,
-		};
 	}
+
+	return {
+		number: operate(currentOperator, num1, num2),
+		equation: `${num1} ${currentOperator} ${num2} =`,
+	};
 }
 
 function clear() {

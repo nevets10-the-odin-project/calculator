@@ -16,6 +16,7 @@ buttons.addEventListener("click", processInput);
 function processInput(e) {
 	const button = e.target.closest("button");
 	const buttonType = button.classList.value;
+	let newEquation = equationDiv.innerText;
 	if (isEquals && buttonType !== "equals") clearAll();
 
 	switch (buttonType) {
@@ -25,14 +26,16 @@ function processInput(e) {
 			break;
 		case "operator":
 			processOperator(button.innerText);
-			populateEquationDiv(`${num1} ${currentOperator}`);
+			newEquation = `${num1} ${currentOperator}`;
 			isTempChanged = false;
 			break;
 		case "negative":
 			tempNum = toggleNegative(tempNum);
 			break;
 		case "equals":
-			equals();
+			let result = equals();
+			tempNum = result.number;
+			newEquation = result.equation;
 			isTempChanged = false;
 			break;
 		case "clear":
@@ -40,13 +43,16 @@ function processInput(e) {
 			break;
 		case "clear-all":
 			clearAll();
+			newEquation = "";
 			break;
 		case "delete":
 			if (!isTempChanged) return;
 			tempNum = deleteDigit(tempNum);
 			break;
 		case "modifier":
-			tempNum = processModifier(+tempNum, button.id).toString();
+			let modified = processModifier(+tempNum, button.id);
+			tempNum = modified.number;
+			newEquation = modified.equation;
 			isTempChanged = false;
 			break;
 		case "decimal":
@@ -57,7 +63,8 @@ function processInput(e) {
 			alert("You pressed something unexpected...");
 	}
 
-	populateResultDiv(isEquals ? num1 : tempNum);
+	populateResultDiv(tempNum);
+	populateEquationDiv(newEquation);
 }
 
 function populateResultDiv(number) {
@@ -101,14 +108,26 @@ function processOperator(newOperator) {
 }
 
 function equals() {
-	isEquals = true;
 	if (!currentOperator) {
-		num1 = +tempNum;
-		populateEquationDiv(`${num1} =`);
-	} else {
+		return {
+			number: tempNum,
+			equation: `${+tempNum} =`,
+		};
+	} else if (!isEquals) {
+		isEquals = true;
 		num2 = +tempNum;
-		populateEquationDiv(`${num1} ${currentOperator} ${num2} =`);
-		num1 = operate(currentOperator, num1, num2);
+
+		return {
+			number: operate(currentOperator, num1, num2),
+			equation: `${num1} ${currentOperator} ${num2} =`,
+		};
+	} else {
+		num1 = +tempNum;
+
+		return {
+			number: operate(currentOperator, num1, num2),
+			equation: `${num1} ${currentOperator} ${num2} =`,
+		};
 	}
 }
 
@@ -128,7 +147,6 @@ function clearAll() {
 	num1 = null;
 	num2 = null;
 	currentOperator = null;
-	populateEquationDiv("");
 }
 
 function deleteDigit(numString) {
@@ -152,13 +170,15 @@ function processModifier(number, modifier) {
 		result = squared(number);
 	}
 
+	const modNumber = result.modNumber;
 	const newEquation = currentOperator
 		? `${num1} ${currentOperator} ${result.modString}`
 		: result.modString;
 
-	populateEquationDiv(newEquation);
-
-	return result.modNumber;
+	return {
+		number: modNumber,
+		equation: newEquation,
+	};
 }
 
 function reciprocal(number) {

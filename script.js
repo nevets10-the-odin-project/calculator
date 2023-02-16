@@ -20,7 +20,7 @@ function processInput(e) {
 
 	switch (buttonType) {
 		case "number":
-			updateTempNumber(button.innerText);
+			tempNum = updateNumber(tempNum, button.innerText);
 			populateResultDiv(tempNum);
 			isTempChanged = true;
 			break;
@@ -64,14 +64,18 @@ function populateEquationDiv(currentEquation) {
 	equationDiv.textContent = currentEquation;
 }
 
-function updateTempNumber(newNumber) {
-	if (tempNum.indexOf(".") !== -1 && newNumber === ".") return;
+function updateNumber(currentNumber, newNumber) {
+	if (currentNumber.indexOf(".") !== -1 && newNumber === ".") {
+		return currentNumber;
+	}
 
 	if (!isTempChanged && newNumber !== ".") {
-		tempNum = newNumber;
+		currentNumber = newNumber;
 	} else {
-		tempNum = tempNum.concat(newNumber.toString());
+		currentNumber = currentNumber.concat(newNumber.toString());
 	}
+
+	return currentNumber;
 }
 
 function toggleNegative() {

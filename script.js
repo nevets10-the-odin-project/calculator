@@ -53,6 +53,11 @@ function processInput(e) {
 			populateResultDiv(tempNum);
 			isTempChanged = false;
 			break;
+		case "decimal":
+			tempNum = decimal(tempNum);
+			populateResultDiv(tempNum);
+			isTempChanged = true;
+			break;
 		default:
 			alert("You pressed something unexpected...");
 	}
@@ -67,17 +72,21 @@ function populateEquationDiv(currentEquation) {
 }
 
 function updateNumber(currentNumber, newNumber) {
-	if (currentNumber.indexOf(".") !== -1 && newNumber === ".") {
-		return currentNumber;
-	}
-
-	if (!isTempChanged && newNumber !== ".") {
-		currentNumber = newNumber;
-	} else {
+	if (isTempChanged) {
 		currentNumber = currentNumber.concat(newNumber.toString());
+	} else {
+		currentNumber = newNumber;
 	}
 
 	return currentNumber;
+}
+
+function decimal(number) {
+	if (isTempChanged) {
+		return number.indexOf(".") === -1 ? number.concat(".") : number;
+	} else {
+		return "0.";
+	}
 }
 
 function toggleNegative(number) {

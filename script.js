@@ -17,10 +17,14 @@ function processInput(e) {
 	const button = e.target.closest("button");
 	const buttonType = button.classList.value;
 	let newEquation = equationDiv.innerText;
-	if (isEquals && buttonType !== "equals") clearAll();
 
 	switch (buttonType) {
 		case "number":
+			if (isEquals) {
+				newEquation = "";
+				clearAll();
+			}
+
 			tempNum = updateNumber(tempNum, button.innerText);
 			isTempChanged = true;
 			break;
@@ -28,6 +32,7 @@ function processInput(e) {
 			processOperator(button.innerText);
 			newEquation = `${num1} ${currentOperator}`;
 			isTempChanged = false;
+			isEquals = false;
 			break;
 		case "negative":
 			tempNum = toggleNegative(tempNum);
@@ -39,6 +44,7 @@ function processInput(e) {
 			isTempChanged = false;
 			break;
 		case "clear":
+			if (isEquals) newEquation = "";
 			clear();
 			break;
 		case "clear-all":
@@ -56,6 +62,11 @@ function processInput(e) {
 			isTempChanged = false;
 			break;
 		case "decimal":
+			if (isEquals) {
+				newEquation = "";
+				clearAll();
+			}
+
 			tempNum = decimal(tempNum);
 			isTempChanged = true;
 			break;
@@ -107,7 +118,11 @@ function processOperator(newOperator) {
 	} else if (isTempChanged) {
 		num2 = +tempNum;
 		num1 = operate(currentOperator, num1, num2);
+	} else if (isEquals) {
+		num1 = operate(currentOperator, num1, num2);
+		num2 = +tempNum;
 	}
+
 	currentOperator = newOperator;
 }
 
@@ -133,11 +148,11 @@ function equals() {
 }
 
 function clear() {
-	if (!isEquals) {
+	if (isEquals) {
+		clearAll();
+	} else {
 		isTempChanged = false;
 		tempNum = "0";
-	} else {
-		clearAll();
 	}
 }
 

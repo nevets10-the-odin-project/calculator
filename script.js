@@ -30,7 +30,8 @@ function processInput(e) {
 			isTempChanged = false;
 			break;
 		case "negative":
-			toggleNegative();
+			tempNum = toggleNegative(tempNum);
+			isTempChanged = false;
 			populateResultDiv(tempNum);
 			break;
 		case "equals":
@@ -78,13 +79,8 @@ function updateNumber(currentNumber, newNumber) {
 	return currentNumber;
 }
 
-function toggleNegative() {
-	if (!isTempChanged) {
-		tempNum = (+resultDiv.textContent * -1).toString();
-		isTempChanged = false;
-	} else {
-		tempNum = (tempNum * -1).toString();
-	}
+function toggleNegative(number) {
+	return (+number * -1).toString();
 }
 
 function processOperator(newOperator) {

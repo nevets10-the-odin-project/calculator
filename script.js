@@ -94,7 +94,11 @@ function decimal(number) {
 }
 
 function toggleNegative(number) {
-	return (+number * -1).toString();
+	if (number === "0") {
+		return number;
+	} else {
+		return number.indexOf("-") === -1 ? `-${number}` : number.slice(1);
+	}
 }
 
 function processOperator(newOperator) {

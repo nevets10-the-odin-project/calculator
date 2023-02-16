@@ -21,7 +21,6 @@ function processInput(e) {
 	switch (buttonType) {
 		case "number":
 			tempNum = updateNumber(tempNum, button.innerText);
-			populateResultDiv(tempNum);
 			isTempChanged = true;
 			break;
 		case "operator":
@@ -31,7 +30,6 @@ function processInput(e) {
 			break;
 		case "negative":
 			tempNum = toggleNegative(tempNum);
-			populateResultDiv(tempNum);
 			break;
 		case "equals":
 			equals();
@@ -46,21 +44,20 @@ function processInput(e) {
 		case "delete":
 			if (!isTempChanged) return;
 			tempNum = deleteDigit(tempNum);
-			populateResultDiv(tempNum);
 			break;
 		case "modifier":
 			tempNum = processModifier(+tempNum, button.id).toString();
-			populateResultDiv(tempNum);
 			isTempChanged = false;
 			break;
 		case "decimal":
 			tempNum = decimal(tempNum);
-			populateResultDiv(tempNum);
 			isTempChanged = true;
 			break;
 		default:
 			alert("You pressed something unexpected...");
 	}
+
+	populateResultDiv(isEquals ? num1 : tempNum);
 }
 
 function populateResultDiv(number) {
@@ -100,7 +97,6 @@ function processOperator(newOperator) {
 		num2 = +tempNum;
 		num1 = operate(currentOperator, num1, num2);
 	}
-	populateResultDiv(num1);
 	currentOperator = newOperator;
 }
 
@@ -109,12 +105,10 @@ function equals() {
 	if (!currentOperator) {
 		num1 = +tempNum;
 		populateEquationDiv(`${num1} =`);
-		populateResultDiv(num1);
 	} else {
 		num2 = +tempNum;
 		populateEquationDiv(`${num1} ${currentOperator} ${num2} =`);
 		num1 = operate(currentOperator, num1, num2);
-		populateResultDiv(num1);
 	}
 }
 
@@ -122,7 +116,6 @@ function clear() {
 	if (!isEquals) {
 		isTempChanged = false;
 		tempNum = "0";
-		populateResultDiv(tempNum);
 	} else {
 		clearAll();
 	}
@@ -136,7 +129,6 @@ function clearAll() {
 	num2 = null;
 	currentOperator = null;
 	populateEquationDiv("");
-	populateResultDiv(tempNum);
 }
 
 function deleteDigit(numString) {

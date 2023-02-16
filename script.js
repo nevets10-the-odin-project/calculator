@@ -133,7 +133,7 @@ function deleteDigit() {
 	if (!isTempChanged) return;
 
 	const tempNumString = tempNum.toString();
-	tempNum = +tempNumString.substring(0, tempNumString.length - 1);
+	tempNum = tempNumString.substring(0, tempNumString.length - 1);
 	populateResultDiv(tempNum);
 }
 

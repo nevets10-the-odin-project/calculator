@@ -31,7 +31,6 @@ function processInput(e) {
 			break;
 		case "negative":
 			tempNum = toggleNegative(tempNum);
-			isTempChanged = false;
 			populateResultDiv(tempNum);
 			break;
 		case "equals":

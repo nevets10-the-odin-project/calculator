@@ -55,7 +55,7 @@ function processInput(e) {
 			alert("You pressed something unexpected...");
 	}
 
-	if (num2 === 0 && currentOperator === "÷") {
+	if (num2 === 0 && currentOperator === "÷" && isEquals) {
 		populateResultDiv("We don't do that here.");
 		disableButtons(true);
 	} else if (!Number.isFinite(+tempNum)) {

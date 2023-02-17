@@ -190,7 +190,10 @@ function deleteDigit(numString) {
 }
 
 function modifyNum(number, modifier) {
-	let result;
+	let result = {
+		modNumber: 0,
+		modString: "",
+	};
 
 	if (modifier === "percent") {
 		result = percent(number);

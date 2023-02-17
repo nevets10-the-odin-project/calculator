@@ -100,11 +100,14 @@ function decimal() {
 	}
 
 	isTempChanged = true;
+
+	populateResultDiv(tempNum);
 }
 
 function toggleNegative() {
 	if (tempNum !== "0") {
 		tempNum = tempNum.indexOf("-") === -1 ? `-${tempNum}` : tempNum.slice(1);
+		populateResultDiv(tempNum);
 	}
 }
 

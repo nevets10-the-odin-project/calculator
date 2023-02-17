@@ -64,7 +64,7 @@ function processInput(e) {
 			tempNum = deleteDigit(tempNum);
 			break;
 		case "modifier":
-			let modified = processModifier(+tempNum, button.id);
+			let modified = modifyNum(+tempNum, button.id);
 			tempNum = modified.number;
 			newEquation = modified.equation;
 			isTempChanged = false;
@@ -189,7 +189,7 @@ function deleteDigit(numString) {
 	}
 }
 
-function processModifier(number, modifier) {
+function modifyNum(number, modifier) {
 	let result;
 
 	if (modifier === "percent") {

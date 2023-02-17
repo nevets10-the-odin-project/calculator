@@ -202,14 +202,11 @@ function modifyNum(number, modifier) {
 		result = squared(number);
 	}
 
-	const modNumber = result.modNumber;
-	const newEquation = currentOperator
-		? `${num1} ${currentOperator} ${result.modString}`
-		: result.modString;
-
 	return {
-		number: modNumber,
-		equation: newEquation,
+		number: result.modNumber,
+		equation: currentOperator
+			? `${num1} ${currentOperator} ${result.modString}`
+			: result.modString,
 	};
 }
 

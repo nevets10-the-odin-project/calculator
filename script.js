@@ -79,7 +79,7 @@ function updateNumber(newNumber) {
 		if (tempNum === "0") {
 			tempNum = newNumber;
 		} else {
-			if (tempNum.length >= 20) return;
+			if (tempNum.length >= 15) return false;
 			tempNum = tempNum.concat(newNumber);
 		}
 	} else {
@@ -95,6 +95,7 @@ function decimal() {
 	if (isEquals) clearAll();
 
 	if (isTempChanged) {
+		if (tempNum.length >= 15) return false;
 		tempNum = tempNum.indexOf(".") === -1 ? tempNum.concat(".") : tempNum;
 	} else {
 		tempNum = "0.";

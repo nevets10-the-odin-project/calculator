@@ -79,6 +79,7 @@ function updateNumber(newNumber) {
 		if (tempNum === "0") {
 			tempNum = newNumber;
 		} else {
+			if (tempNum.length >= 20) return;
 			tempNum = tempNum.concat(newNumber);
 		}
 	} else {

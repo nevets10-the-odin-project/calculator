@@ -6,6 +6,8 @@ let tempNum = "0";
 let num1 = null;
 let num2 = null;
 let currentOperator = null;
+let btnsToDisable = ["operator", "modifier", "decimal", "negative"];
+let areBtnsDisabled = false;
 
 const resultDiv = document.querySelector(".result");
 const equationDiv = document.querySelector(".equation");
@@ -17,6 +19,12 @@ function processInput(e) {
 	const button = e.target.closest("button");
 	const buttonType = button.classList.value;
 	let newEquation = equationDiv.innerText;
+
+	if (areBtnsDisabled) {
+		clearAll();
+		disableButtons(btnsToDisable, false);
+		newEquation = "";
+	}
 
 	switch (buttonType) {
 		case "number":
@@ -48,8 +56,8 @@ function processInput(e) {
 			clear();
 			break;
 		case "clear-all":
-			clearAll();
 			newEquation = "";
+			clearAll();
 			break;
 		case "delete":
 			if (!isTempChanged) return;
@@ -72,6 +80,14 @@ function processInput(e) {
 			break;
 		default:
 			alert("You pressed something unexpected...");
+	}
+
+	if (num2 === 0 && currentOperator === "÷") {
+		tempNum = "We don't do that here.";
+		disableButtons(btnsToDisable, true);
+	} else if (!Number.isFinite(+tempNum)) {
+		tempNum = "Ok, that's enough.";
+		disableButtons(btnsToDisable, true);
 	}
 
 	populateResultDiv(tempNum);
@@ -232,6 +248,22 @@ function percent(number) {
 		modNumber,
 		modString: modNumber,
 	};
+}
+
+function disableButtons(btnClassArray, shouldDisable) {
+	btnClassArray.forEach((btnClass) => {
+		const buttons = document.querySelectorAll(`.${btnClass}`);
+
+		for (let i = 0; i < buttons.length; i++) {
+			if (shouldDisable) {
+				buttons[i].setAttribute("disabled", "");
+			} else {
+				buttons[i].removeAttribute("disabled");
+			}
+		}
+	});
+
+	areBtnsDisabled = shouldDisable;
 }
 
 function operate(operator, a, b) {

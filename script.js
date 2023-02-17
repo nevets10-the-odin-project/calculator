@@ -6,7 +6,6 @@ let tempNum = "0";
 let num1 = null;
 let num2 = null;
 let currentOperator = null;
-let btnsToDisable = ["operator", "modifier", "decimal", "negative"];
 let areBtnsDisabled = false;
 
 const resultDiv = document.querySelector(".result");
@@ -21,7 +20,7 @@ function processInput(e) {
 
 	if (areBtnsDisabled) {
 		clearAll();
-		disableButtons(btnsToDisable, false);
+		disableButtons(false);
 	}
 
 	switch (buttonType) {
@@ -58,10 +57,10 @@ function processInput(e) {
 
 	if (num2 === 0 && currentOperator === "÷") {
 		populateResultDiv("We don't do that here.");
-		disableButtons(btnsToDisable, true);
+		disableButtons(true);
 	} else if (!Number.isFinite(+tempNum)) {
 		populateResultDiv("Ok, that's enough.");
-		disableButtons(btnsToDisable, true);
+		disableButtons(true);
 	}
 }
 
@@ -227,8 +226,10 @@ function percent(number) {
 	}
 }
 
-function disableButtons(btnClassArray, shouldDisable) {
-	btnClassArray.forEach((btnClass) => {
+function disableButtons(shouldDisable) {
+	let btnsToDisable = ["operator", "modifier", "decimal", "negative"];
+
+	btnsToDisable.forEach((btnClass) => {
 		const buttons = document.querySelectorAll(`.${btnClass}`);
 
 		for (let i = 0; i < buttons.length; i++) {

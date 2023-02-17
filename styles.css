@@ -42,6 +42,7 @@ body {
 	justify-content: end;
 	background-color: #333333;
 	text-align: right;
+	padding: 0 10px;
 }
 
 .equation {

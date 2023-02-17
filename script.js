@@ -18,80 +18,51 @@ buttons.addEventListener("click", processInput);
 function processInput(e) {
 	const button = e.target.closest("button");
 	const buttonType = button.classList.value;
-	let newEquation = equationDiv.innerText;
 
 	if (areBtnsDisabled) {
 		clearAll();
 		disableButtons(btnsToDisable, false);
-		newEquation = "";
 	}
 
 	switch (buttonType) {
 		case "number":
-			if (isEquals) {
-				newEquation = "";
-				clearAll();
-			}
-
-			tempNum = updateNumber(tempNum, button.innerText);
-			isTempChanged = true;
+			updateNumber(button.innerText);
 			break;
 		case "operator":
 			processOperator(button.innerText);
-			newEquation = `${num1} ${currentOperator}`;
-			isTempChanged = false;
-			isEquals = false;
 			break;
 		case "negative":
-			tempNum = toggleNegative(tempNum);
+			toggleNegative();
 			break;
 		case "equals":
-			let result = equals();
-			tempNum = result.number;
-			newEquation = result.equation;
-			isTempChanged = false;
+			equals();
 			break;
 		case "clear":
-			if (isEquals) newEquation = "";
 			clear();
 			break;
 		case "clear-all":
-			newEquation = "";
 			clearAll();
 			break;
 		case "delete":
-			if (!isTempChanged) return;
-			tempNum = deleteDigit(tempNum);
+			deleteDigit();
 			break;
 		case "modifier":
-			let modified = modifyNum(+tempNum, button.id);
-			tempNum = modified.number;
-			newEquation = modified.equation;
-			isTempChanged = false;
+			modifyNum(button.id);
 			break;
 		case "decimal":
-			if (isEquals) {
-				newEquation = "";
-				clearAll();
-			}
-
-			tempNum = decimal(tempNum);
-			isTempChanged = true;
+			decimal();
 			break;
 		default:
 			alert("You pressed something unexpected...");
 	}
 
 	if (num2 === 0 && currentOperator === "÷") {
-		tempNum = "We don't do that here.";
+		populateResultDiv("We don't do that here.");
 		disableButtons(btnsToDisable, true);
 	} else if (!Number.isFinite(+tempNum)) {
-		tempNum = "Ok, that's enough.";
+		populateResultDiv("Ok, that's enough.");
 		disableButtons(btnsToDisable, true);
 	}
-
-	populateResultDiv(tempNum);
-	populateEquationDiv(newEquation);
 }
 
 function populateResultDiv(number) {
@@ -102,29 +73,39 @@ function populateEquationDiv(currentEquation) {
 	equationDiv.textContent = currentEquation;
 }
 
-function updateNumber(currentNumber, newNumber) {
+function updateNumber(newNumber) {
+	if (isEquals) clearAll();
+
 	if (isTempChanged) {
-		currentNumber = currentNumber.concat(newNumber.toString());
+		if (tempNum === "0") {
+			tempNum = newNumber;
+		} else {
+			tempNum = tempNum.concat(newNumber);
+		}
 	} else {
-		currentNumber = newNumber;
+		tempNum = newNumber;
 	}
 
-	return currentNumber;
+	isTempChanged = true;
+
+	populateResultDiv(tempNum);
 }
 
-function decimal(number) {
+function decimal() {
+	if (isEquals) clearAll();
+
 	if (isTempChanged) {
-		return number.indexOf(".") === -1 ? number.concat(".") : number;
+		tempNum = tempNum.indexOf(".") === -1 ? tempNum.concat(".") : tempNum;
 	} else {
-		return "0.";
+		tempNum = "0.";
 	}
+
+	isTempChanged = true;
 }
 
-function toggleNegative(number) {
-	if (number === "0") {
-		return number;
-	} else {
-		return number.indexOf("-") === -1 ? `-${number}` : number.slice(1);
+function toggleNegative() {
+	if (tempNum !== "0") {
+		tempNum = tempNum.indexOf("-") === -1 ? `-${tempNum}` : tempNum.slice(1);
 	}
 }
 
@@ -140,16 +121,13 @@ function processOperator(newOperator) {
 	}
 
 	currentOperator = newOperator;
+	isTempChanged = false;
+	isEquals = false;
+
+	populateEquationDiv(`${num1} ${currentOperator}`);
 }
 
 function equals() {
-	if (!currentOperator) {
-		return {
-			number: tempNum,
-			equation: `${+tempNum} =`,
-		};
-	}
-
 	if (isEquals) {
 		num1 = +tempNum;
 	} else {
@@ -157,10 +135,17 @@ function equals() {
 		num2 = +tempNum;
 	}
 
-	return {
-		number: operate(currentOperator, num1, num2),
-		equation: `${num1} ${currentOperator} ${num2} =`,
-	};
+	let equation = `${+tempNum} =`;
+
+	if (currentOperator) {
+		tempNum = operate(currentOperator, num1, num2).toString();
+		equation = `${num1} ${currentOperator} ${num2} =`;
+	}
+
+	isTempChanged = false;
+
+	populateResultDiv(tempNum);
+	populateEquationDiv(equation);
 }
 
 function clear() {
@@ -169,6 +154,7 @@ function clear() {
 	} else {
 		isTempChanged = false;
 		tempNum = "0";
+		populateResultDiv(tempNum);
 	}
 }
 
@@ -179,75 +165,66 @@ function clearAll() {
 	num1 = null;
 	num2 = null;
 	currentOperator = null;
+	populateEquationDiv("");
+	populateResultDiv(tempNum);
 }
 
-function deleteDigit(numString) {
-	if (numString.length === 1) {
-		return "0";
-	} else {
-		return numString.substring(0, numString.length - 1);
+function deleteDigit() {
+	if (isTempChanged) {
+		if (tempNum.length === 1) {
+			tempNum = "0";
+		} else {
+			tempNum = tempNum.substring(0, tempNum.length - 1);
+		}
 	}
 }
 
-function modifyNum(number, modifier) {
-	let result = {
-		modNumber: 0,
-		modString: "",
-	};
+function modifyNum(modifier) {
+	let modEquation = "";
 
 	if (modifier === "percent") {
-		result = percent(number);
+		tempNum = percent(tempNum).toString();
+		modEquation = tempNum;
 	} else if (modifier === "sqrt") {
-		result = squareRoot(number);
+		modEquation = `√(${tempNum})`;
+		tempNum = squareRoot(tempNum).toString();
 	} else if (modifier === "reciprocal") {
-		result = reciprocal(number);
+		modEquation = `1/(${tempNum})`;
+		tempNum = reciprocal(tempNum).toString();
 	} else {
-		result = squared(number);
+		modEquation = `sqr(${tempNum})`;
+		tempNum = squared(tempNum).toString();
 	}
 
-	return {
-		number: result.modNumber,
-		equation: currentOperator
-			? `${num1} ${currentOperator} ${result.modString}`
-			: result.modString,
-	};
+	isTempChanged = false;
+
+	populateResultDiv(tempNum);
+	populateEquationDiv(
+		currentOperator ? `${num1} ${currentOperator} ${modEquation}` : modEquation
+	);
 }
 
 function reciprocal(number) {
-	return {
-		modNumber: divide(1, number),
-		modString: `1/(${number})`,
-	};
+	return divide(1, number);
 }
 
 function squared(number) {
-	return {
-		modNumber: multiply(number, number),
-		modString: `sqr(${number})`,
-	};
+	return multiply(number, number);
 }
 
 function squareRoot(number) {
-	return {
-		modNumber: number ** divide(1, 2),
-		modString: `√(${number})`,
-	};
+	return number ** divide(1, 2);
 }
 
 function percent(number) {
 	//https://github.com/microsoft/calculator/issues/655#issuecomment-527471016
-	let modNumber = 0;
-
 	if (currentOperator === "+" || currentOperator === "-") {
-		modNumber = (num1 * number) / 100;
+		return (num1 * number) / 100;
 	} else if (currentOperator === "x" || currentOperator === "÷") {
-		modNumber = number / 100;
+		return number / 100;
+	} else {
+		return 0;
 	}
-
-	return {
-		modNumber,
-		modString: modNumber,
-	};
 }
 
 function disableButtons(btnClassArray, shouldDisable) {
